@@ -1,0 +1,26 @@
+[package]
+name = "quinn-deferred-config"
+version = "0.1.1"
+edition = "2024"
+rust-version = "1.85"
+description = "ClientHello-based deferred ServerConfig selection for Quinn, without forking Quinn or rustls."
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/iadev09/quinn-deferred-config"
+readme = "README.md"
+keywords = ["quic", "quinn", "rustls", "sni", "clienthello"]
+categories = ["network-programming", "cryptography", "asynchronous"]
+
+[features]
+default = ["rustls-ring"]
+rustls-ring = ["quinn-proto/rustls-ring", "rustls/ring"]
+rustls-aws-lc-rs = ["quinn-proto/rustls-aws-lc-rs", "rustls/aws-lc-rs"]
+prefer-post-quantum = ["rustls/prefer-post-quantum"]
+
+[dependencies]
+quinn-proto = { version = "0.11", default-features = false }
+rustls = { version = "0.23", default-features = false, features = ["std", "tls12"] }
+
+[dev-dependencies]
+quinn = { version = "0.11", default-features = false, features = ["runtime-tokio", "rustls-ring"] }
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "net", "io-util", "time"] }
+rcgen = "0.14.8"
